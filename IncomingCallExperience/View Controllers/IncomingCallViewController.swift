@@ -18,10 +18,16 @@ class IncomingCallViewController: UIViewController {
             guard let self = self else { return }
             
             expandableControlsHeightConstraint.constant = heightConstant
-//            expandableControlsBottomConstraint.isActive = true
+            
             UIView.animate(withDuration: 0.25) { [weak self] in
                 self?.view.layoutIfNeeded()
+            } completion: { [weak self] completed in
+                
+                if completed {
+                    self?.showAdditonalControls()
+                }
             }
+
         }
         return view
     }()
@@ -52,6 +58,10 @@ private extension IncomingCallViewController {
         
 //        expandableControlsView.setContentHuggingPriority(.defaultLow, for: .vertical)
 //        expandableControlsView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+    }
+    
+    func showAdditonalControls() {
+        expandableControlsView.showExpandedControls()
     }
 }
 

@@ -34,6 +34,36 @@ class ExpandableControlsView: UIView {
         return view
     }()
     
+    private var firstExpandedControl: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .blue
+        view.layer.cornerRadius = 18
+//        view.isHidden = true
+        view.alpha = 0
+        return view
+    }()
+    
+    private var secondExpandedControl: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .blue
+        view.layer.cornerRadius = 18
+//        view.isHidden = true
+        view.alpha = 0
+        return view
+    }()
+    
+    private var thirdExpandedControl: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .blue
+        view.layer.cornerRadius = 18
+//        view.isHidden = true
+        view.alpha = 0
+        return view
+    }()
+    
     private var profileImageView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -78,7 +108,7 @@ class ExpandableControlsView: UIView {
     }
 }
 
-private extension ExpandableControlsView {
+extension ExpandableControlsView {
     
     func setup() {
         addSubview(containerView)
@@ -119,8 +149,44 @@ private extension ExpandableControlsView {
     }
     
     func expandContainerView() {
-        let heightConstant: CGFloat = style == .compact ? 150 : 60
+        let heightConstant: CGFloat = style == .compact ? 200 : 60
         didChangeHeight?(heightConstant)
         style.toggle()
+    }
+    
+    func showExpandedControls() {
+        guard style == .full else { 
+            [firstExpandedControl, secondExpandedControl, thirdExpandedControl].forEach {
+                $0.removeFromSuperview()
+            }
+            return
+        }
+        
+        [firstExpandedControl, secondExpandedControl, thirdExpandedControl].forEach { containerView.addSubview($0) }
+        
+        
+        NSLayoutConstraint.activate([
+            firstExpandedControl.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+            firstExpandedControl.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+            firstExpandedControl.heightAnchor.constraint(equalToConstant: 36),
+            firstExpandedControl.widthAnchor.constraint(equalToConstant: 36),
+            
+            secondExpandedControl.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+            secondExpandedControl.leadingAnchor.constraint(equalTo: firstExpandedControl.trailingAnchor, constant: 20),
+            secondExpandedControl.widthAnchor.constraint(equalToConstant: 36),
+            secondExpandedControl.heightAnchor.constraint(equalToConstant: 36),
+            
+            thirdExpandedControl.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+            thirdExpandedControl.leadingAnchor.constraint(equalTo: secondExpandedControl.trailingAnchor, constant: 20),
+            thirdExpandedControl.widthAnchor.constraint(equalToConstant: 36),
+            thirdExpandedControl.heightAnchor.constraint(equalToConstant: 36),
+        ])
+        
+        UIView.animate(withDuration: 0.25) { [weak self] in
+            guard let self = self else { return }
+            [self.firstExpandedControl, self.secondExpandedControl, self.thirdExpandedControl].forEach {
+                $0.alpha = 1
+            }
+        }
     }
 }
