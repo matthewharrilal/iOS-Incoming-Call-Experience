@@ -54,20 +54,4 @@ extension CallCardView {
             containerViewHeightConstraint
         ])
     }
-    
-    func shrinkCallCardView() {
-        containerViewHeightConstraint.constant = 200
-        UIView.animate(withDuration: 0.25) { [weak self] in
-            guard let self = self else { return }
-            self.layoutIfNeeded()
-        }
-    }
-    
-    func expandCallCardView() {
-        containerViewHeightConstraint.constant = 450
-        UIView.animate(withDuration: 0.25) { [weak self] in
-            guard let self = self else { return }
-            self.layoutIfNeeded()
-        }
-    }
 }

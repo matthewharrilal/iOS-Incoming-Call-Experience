@@ -21,9 +21,15 @@ class ExpandableControlsView: UIView {
     enum Style {
         case compact
         case full
+        case bottom
         
         mutating func toggle() {
-            self = (self == .compact) ? .full : .compact
+            switch self {
+            case .compact:
+                self = .full
+            case .full, .bottom:
+                self = .compact
+            }
         }
     }
     
@@ -40,28 +46,34 @@ class ExpandableControlsView: UIView {
         return view
     }()
     
-    private var firstExpandedControl: UIView = {
-        let view = UIView()
+    private lazy var firstExpandedControl: TappableButtonView = {
+        let view = TappableButtonView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .blue
+        view.backgroundColor = .cyan
         view.layer.cornerRadius = 18
         view.alpha = 0
+        view.didTap = { [weak self] in
+            print("Current style \(self?.style)")
+        }
         return view
     }()
     
-    private var secondExpandedControl: UIView = {
-        let view = UIView()
+    private lazy var secondExpandedControl: TappableButtonView = {
+        let view = TappableButtonView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .blue
         view.layer.cornerRadius = 18
         view.alpha = 0
+        view.didTap = { [weak self] in
+            self?.onSecondExpanedControlTapped()
+        }
         return view
     }()
     
     private var thirdExpandedControl: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .blue
+        view.backgroundColor = .green
         view.layer.cornerRadius = 18
         view.alpha = 0
         return view
@@ -207,5 +219,9 @@ extension ExpandableControlsView {
             }
         }
 
+    }
+    
+    func onSecondExpanedControlTapped() {
+        delegate?.didChangeLayoutOfControls(style: .bottom)
     }
 }
