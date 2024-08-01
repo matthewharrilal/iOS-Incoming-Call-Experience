@@ -10,6 +10,8 @@ import UIKit
 
 class ExpandableControlsView: UIView {
     
+    var didChangeHeight: ((CGFloat) -> Void)?
+    
     enum Style {
         case compact
         case full
@@ -22,6 +24,7 @@ class ExpandableControlsView: UIView {
     var style: Style = .compact
     
     private var containerViewHeightConstraint: NSLayoutConstraint!
+    private var containerViewBottomConstraint: NSLayoutConstraint!
     
     private var containerView: UIView = {
         let view = UIView()
@@ -85,20 +88,21 @@ private extension ExpandableControlsView {
         containerView.addSubview(expandButton)
         
         containerViewHeightConstraint = containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60)
+        containerViewBottomConstraint = containerView.bottomAnchor.constraint(equalTo: bottomAnchor)
         
         NSLayoutConstraint.activate([
             
             containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
             containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            containerViewHeightConstraint,
+            containerView.topAnchor.constraint(equalTo: topAnchor),
             containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            containerViewBottomConstraint,
             
             profileImageView.heightAnchor.constraint(equalToConstant: 36),
             profileImageView.widthAnchor.constraint(equalToConstant: 36),
             profileImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
-            profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            profileImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
             
             nameLabel.topAnchor.constraint(equalTo: profileImageView.topAnchor),
             nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 5),
@@ -107,7 +111,7 @@ private extension ExpandableControlsView {
             timeStampLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
             timeStampLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 5),
             
-            expandButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            expandButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
             expandButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
             expandButton.heightAnchor.constraint(equalToConstant: 36),
             expandButton.widthAnchor.constraint(equalToConstant: 36),
@@ -115,11 +119,8 @@ private extension ExpandableControlsView {
     }
     
     func expandContainerView() {
-        containerViewHeightConstraint.constant = style == .compact ? 150 : 60
-        UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.layoutIfNeeded()
-        }
-        
+        let heightConstant: CGFloat = style == .compact ? 150 : 60
+        didChangeHeight?(heightConstant)
         style.toggle()
     }
 }
