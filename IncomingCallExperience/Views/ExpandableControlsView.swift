@@ -39,7 +39,6 @@ class ExpandableControlsView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .blue
         view.layer.cornerRadius = 18
-//        view.isHidden = true
         view.alpha = 0
         return view
     }()
@@ -49,7 +48,6 @@ class ExpandableControlsView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .blue
         view.layer.cornerRadius = 18
-//        view.isHidden = true
         view.alpha = 0
         return view
     }()
@@ -59,7 +57,6 @@ class ExpandableControlsView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .blue
         view.layer.cornerRadius = 18
-//        view.isHidden = true
         view.alpha = 0
         return view
     }()
@@ -193,9 +190,9 @@ extension ExpandableControlsView {
     func hideExpandedControls() {
         UIView.animate(withDuration: 0.10) { [weak self] in
             guard let self = self else { return }
-            self.firstExpandedControl.alpha = 0
-            self.secondExpandedControl.alpha = 0
-            self.thirdExpandedControl.alpha = 0
+            [self.firstExpandedControl, self.secondExpandedControl, self.thirdExpandedControl].forEach {
+                $0.alpha = 0
+            }
         } completion: { [weak self] _ in
             guard let self = self else { return }
             [self.firstExpandedControl, self.secondExpandedControl, self.thirdExpandedControl].forEach {
