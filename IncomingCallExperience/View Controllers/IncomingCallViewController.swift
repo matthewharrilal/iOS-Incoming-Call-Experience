@@ -14,10 +14,15 @@ class IncomingCallViewController: UIViewController {
     private lazy var expandableControlsView: ExpandableControlsView = {
         let view = ExpandableControlsView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.didChangeHeight = { [weak self] heightConstant in
+        view.didChangeHeight = { [weak self] style in
             guard let self = self else { return }
             
+            let heightConstant: CGFloat = style == .full ? 200 : 60
             expandableControlsHeightConstraint.constant = heightConstant
+            
+            if style == .compact {
+                view.hideExpandedControls()
+            }
             
             UIView.animate(withDuration: 0.25) { [weak self] in
                 self?.view.layoutIfNeeded()

@@ -10,7 +10,7 @@ import UIKit
 
 class ExpandableControlsView: UIView {
     
-    var didChangeHeight: ((CGFloat) -> Void)?
+    var didChangeHeight: ((Style) -> Void)?
     
     enum Style {
         case compact
@@ -149,9 +149,8 @@ extension ExpandableControlsView {
     }
     
     func expandContainerView() {
-        let heightConstant: CGFloat = style == .compact ? 200 : 60
-        didChangeHeight?(heightConstant)
         style.toggle()
+        didChangeHeight?(style)
     }
     
     func showExpandedControls() {
@@ -189,5 +188,20 @@ extension ExpandableControlsView {
                 $0.alpha = 1
             }
         }
+    }
+    
+    func hideExpandedControls() {
+        UIView.animate(withDuration: 0.10) { [weak self] in
+            guard let self = self else { return }
+            self.firstExpandedControl.alpha = 0
+            self.secondExpandedControl.alpha = 0
+            self.thirdExpandedControl.alpha = 0
+        } completion: { [weak self] _ in
+            guard let self = self else { return }
+            [self.firstExpandedControl, self.secondExpandedControl, self.thirdExpandedControl].forEach {
+                $0.removeFromSuperview()
+            }
+        }
+
     }
 }
