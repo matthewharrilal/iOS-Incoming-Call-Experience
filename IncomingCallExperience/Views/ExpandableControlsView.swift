@@ -164,20 +164,21 @@ extension ExpandableControlsView {
         
         [firstExpandedControl, secondExpandedControl, thirdExpandedControl].forEach { containerView.addSubview($0) }
         
+        let spacing = (containerView.frame.width / 3) - 20
         
         NSLayoutConstraint.activate([
             firstExpandedControl.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
-            firstExpandedControl.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
+            firstExpandedControl.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             firstExpandedControl.heightAnchor.constraint(equalToConstant: 36),
             firstExpandedControl.widthAnchor.constraint(equalToConstant: 36),
             
             secondExpandedControl.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
-            secondExpandedControl.leadingAnchor.constraint(equalTo: firstExpandedControl.trailingAnchor, constant: 20),
+            secondExpandedControl.leadingAnchor.constraint(equalTo: firstExpandedControl.trailingAnchor, constant: spacing),
             secondExpandedControl.widthAnchor.constraint(equalToConstant: 36),
             secondExpandedControl.heightAnchor.constraint(equalToConstant: 36),
             
             thirdExpandedControl.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
-            thirdExpandedControl.leadingAnchor.constraint(equalTo: secondExpandedControl.trailingAnchor, constant: 20),
+            thirdExpandedControl.leadingAnchor.constraint(equalTo: secondExpandedControl.trailingAnchor, constant: spacing),
             thirdExpandedControl.widthAnchor.constraint(equalToConstant: 36),
             thirdExpandedControl.heightAnchor.constraint(equalToConstant: 36),
         ])

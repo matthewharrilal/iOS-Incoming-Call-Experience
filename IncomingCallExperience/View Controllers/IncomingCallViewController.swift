@@ -24,7 +24,7 @@ class IncomingCallViewController: UIViewController {
             } completion: { [weak self] completed in
                 
                 if completed {
-                    self?.showAdditonalControls()
+                    view.showExpandedControls()
                 }
             }
 
@@ -51,17 +51,9 @@ private extension IncomingCallViewController {
         NSLayoutConstraint.activate([
             expandableControlsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25),
             expandableControlsHeightConstraint,
-//            expandableControlsView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             expandableControlsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             expandableControlsView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        
-//        expandableControlsView.setContentHuggingPriority(.defaultLow, for: .vertical)
-//        expandableControlsView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-    }
-    
-    func showAdditonalControls() {
-        expandableControlsView.showExpandedControls()
     }
 }
 
