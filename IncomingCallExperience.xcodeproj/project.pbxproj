@@ -17,6 +17,7 @@
 		766EE0D52C5AED1100B54DB9 /* IncomingCallExperienceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766EE0D42C5AED1100B54DB9 /* IncomingCallExperienceUITests.swift */; };
 		766EE0D72C5AED1100B54DB9 /* IncomingCallExperienceUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766EE0D62C5AED1100B54DB9 /* IncomingCallExperienceUITestsLaunchTests.swift */; };
 		766EE0E62C5AF28F00B54DB9 /* ExpandableControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766EE0E52C5AF28F00B54DB9 /* ExpandableControlsView.swift */; };
+		766EE0E92C5B384E00B54DB9 /* TappableButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766EE0E82C5B384E00B54DB9 /* TappableButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		766EE0D42C5AED1100B54DB9 /* IncomingCallExperienceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingCallExperienceUITests.swift; sourceTree = "<group>"; };
 		766EE0D62C5AED1100B54DB9 /* IncomingCallExperienceUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingCallExperienceUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		766EE0E52C5AF28F00B54DB9 /* ExpandableControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableControlsView.swift; sourceTree = "<group>"; };
+		766EE0E82C5B384E00B54DB9 /* TappableButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappableButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				766EE0E52C5AF28F00B54DB9 /* ExpandableControlsView.swift */,
+				766EE0E82C5B384E00B54DB9 /* TappableButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				766EE0B82C5AED1000B54DB9 /* IncomingCallViewController.swift in Sources */,
+				766EE0E92C5B384E00B54DB9 /* TappableButtonView.swift in Sources */,
 				766EE0B42C5AED1000B54DB9 /* AppDelegate.swift in Sources */,
 				766EE0E62C5AF28F00B54DB9 /* ExpandableControlsView.swift in Sources */,
 				766EE0B62C5AED1000B54DB9 /* SceneDelegate.swift in Sources */,
