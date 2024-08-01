@@ -14,6 +14,7 @@ class IncomingCallViewController: UIViewController {
     private lazy var expandableControlsView: ExpandableControlsView = {
         let view = ExpandableControlsView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.delegate = self
         view.didChangeHeight = { [weak self] style in
             guard let self = self else { return }
             
@@ -28,7 +29,7 @@ class IncomingCallViewController: UIViewController {
                 self?.view.layoutIfNeeded()
             } completion: { [weak self] completed in
                 
-                if completed {
+                if completed && style == .full {
                     view.showExpandedControls()
                 }
             }
@@ -36,6 +37,13 @@ class IncomingCallViewController: UIViewController {
         }
         return view
     }()
+    
+    private var callCardView: CallCardView = {
+        let view = CallCardView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +57,7 @@ private extension IncomingCallViewController {
     
     func setup() {
         view.addSubview(expandableControlsView)
+        view.addSubview(callCardView)
         view.backgroundColor = .white
         
         expandableControlsHeightConstraint = expandableControlsView.heightAnchor.constraint(equalToConstant: 60)
@@ -57,8 +66,24 @@ private extension IncomingCallViewController {
             expandableControlsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25),
             expandableControlsHeightConstraint,
             expandableControlsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            expandableControlsView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            expandableControlsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            callCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            callCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            callCardView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+}
+
+extension IncomingCallViewController: ExpandableControlsDelegate {
+    
+    func didChangeLayoutOfControls(style: ExpandableControlsView.Style) {
+        switch style {
+        case .compact:
+            callCardView.expandCallCardView()
+        case .full:
+            callCardView.shrinkCallCardView()
+        }
     }
 }
 

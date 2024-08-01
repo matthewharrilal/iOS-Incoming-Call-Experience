@@ -8,7 +8,13 @@
 import Foundation
 import UIKit
 
+protocol ExpandableControlsDelegate: AnyObject {
+    func didChangeLayoutOfControls(style: ExpandableControlsView.Style)
+}
+
 class ExpandableControlsView: UIView {
+    
+    weak var delegate: ExpandableControlsDelegate?
     
     var didChangeHeight: ((Style) -> Void)?
     
@@ -148,6 +154,7 @@ extension ExpandableControlsView {
     func expandContainerView() {
         style.toggle()
         didChangeHeight?(style)
+        delegate?.didChangeLayoutOfControls(style: style)
     }
     
     func showExpandedControls() {
@@ -188,7 +195,7 @@ extension ExpandableControlsView {
     }
     
     func hideExpandedControls() {
-        UIView.animate(withDuration: 0.10) { [weak self] in
+        UIView.animate(withDuration: 0.15) { [weak self] in
             guard let self = self else { return }
             [self.firstExpandedControl, self.secondExpandedControl, self.thirdExpandedControl].forEach {
                 $0.alpha = 0
