@@ -60,7 +60,7 @@ private extension IncomingCallViewController {
             
             callCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             callCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            callCardView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            callCardViewBottomConstraint,
             callCardViewTopConstraint
         ])
     }
@@ -71,8 +71,9 @@ extension IncomingCallViewController: ExpandableControlsDelegate {
     func didChangeLayoutOfControls(style: ExpandableControlsView.Style) {
         switch style {
         case .bottom:
-            callCardViewTopConstraint.constant = 0
-            expandableControlsTopConstraint.constant = UIScreen.main.bounds.height - (view.safeAreaInsets.top + 85)
+            let spacing = UIScreen.main.bounds.height - (view.safeAreaInsets.top + 200)
+            callCardViewBottomConstraint.constant = spacing
+            expandableControlsTopConstraint.constant = spacing
             expandableControlsView.style = .bottom
             
             UIView.animate(withDuration: 0.25) { [weak self] in

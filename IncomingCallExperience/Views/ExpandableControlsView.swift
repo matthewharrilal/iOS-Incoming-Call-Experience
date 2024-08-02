@@ -33,7 +33,11 @@ class ExpandableControlsView: UIView {
         }
     }
     
-    var style: Style = .compact
+    var style: Style = .compact {
+        didSet {
+            print("Transitioning to new style \(style)")
+        }
+    }
     
     private var containerViewHeightConstraint: NSLayoutConstraint!
     private var containerViewBottomConstraint: NSLayoutConstraint!
