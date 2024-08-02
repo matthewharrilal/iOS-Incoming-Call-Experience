@@ -12,7 +12,6 @@ class IncomingCallViewController: UIViewController {
     private var expandableControlsHeightConstraint: NSLayoutConstraint!
     private var expandableControlsTopConstraint: NSLayoutConstraint!
     private var callCardViewBottomConstraint: NSLayoutConstraint!
-    private var callCardViewTopConstraint: NSLayoutConstraint!
     
     private lazy var expandableControlsView: ExpandableControlsView = {
         let view = ExpandableControlsView()
@@ -50,7 +49,6 @@ private extension IncomingCallViewController {
         expandableControlsHeightConstraint = expandableControlsView.heightAnchor.constraint(equalToConstant: 60)
         expandableControlsTopConstraint = expandableControlsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25)
         callCardViewBottomConstraint = callCardView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        callCardViewTopConstraint = callCardView.topAnchor.constraint(equalTo: expandableControlsView.bottomAnchor, constant: 250)
         
         NSLayoutConstraint.activate([
             expandableControlsTopConstraint,
@@ -61,7 +59,7 @@ private extension IncomingCallViewController {
             callCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             callCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             callCardViewBottomConstraint,
-            callCardViewTopConstraint
+            callCardView.topAnchor.constraint(equalTo: expandableControlsView.bottomAnchor, constant: 250)
         ])
     }
 }
@@ -70,11 +68,23 @@ extension IncomingCallViewController: ExpandableControlsDelegate {
     
     func didChangeLayoutOfControls(style: ExpandableControlsView.Style) {
         switch style {
-        case .bottom:
+        case .compactBottom:
             let spacing = UIScreen.main.bounds.height - (view.safeAreaInsets.top + 200)
             callCardViewBottomConstraint.constant = spacing
             expandableControlsTopConstraint.constant = spacing
-            expandableControlsView.style = .bottom
+            expandableControlsView.style = .compactBottom
+            
+            UIView.animate(withDuration: 0.25) { [weak self] in
+                self?.view.layoutIfNeeded()
+            }
+            
+            expandableControlsDidChangeHeight(style: .compact)
+            break
+        case .compactTop:
+            let spacing = view.safeAreaInsets.top
+            callCardViewBottomConstraint.constant = 0
+            expandableControlsTopConstraint.constant = spacing
+            expandableControlsView.style = .compactTop
             
             UIView.animate(withDuration: 0.25) { [weak self] in
                 self?.view.layoutIfNeeded()
