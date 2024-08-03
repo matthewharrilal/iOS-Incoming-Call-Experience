@@ -19,7 +19,7 @@ class IncomingCallViewController: UIViewController {
         view.delegate = self
         view.didChangeHeight = { [weak self] style in
             guard let self = self else { return }
-            self.expandableControlsDidChangeHeight(style: style)
+            self.didChangeLayoutOfControls(style: style)
         }
         return view
     }()
@@ -67,12 +67,15 @@ private extension IncomingCallViewController {
 extension IncomingCallViewController: ExpandableControlsDelegate {
     
     func didChangeLayoutOfControls(style: ExpandableControlsView.Style) {
+        let spacing: CGFloat
+        expandableControlsView.style = style
+
         switch style {
         case .compactBottom:
-            let spacing = UIScreen.main.bounds.height - (view.safeAreaInsets.top + 200)
+            spacing = UIScreen.main.bounds.height - (view.safeAreaInsets.top + 200)
+
             callCardViewBottomConstraint.constant = spacing
             expandableControlsTopConstraint.constant = spacing
-            expandableControlsView.style = .compactBottom
             
             UIView.animate(withDuration: 0.25) { [weak self] in
                 self?.view.layoutIfNeeded()
@@ -81,29 +84,37 @@ extension IncomingCallViewController: ExpandableControlsDelegate {
             expandableControlsDidChangeHeight(style: .compact)
             break
         case .compactTop:
-            let spacing = view.safeAreaInsets.top
+            spacing = view.safeAreaInsets.top
+
             callCardViewBottomConstraint.constant = 0
             expandableControlsTopConstraint.constant = spacing
-            expandableControlsView.style = .compactTop
             
             UIView.animate(withDuration: 0.25) { [weak self] in
                 self?.view.layoutIfNeeded()
             }
-            
+
             expandableControlsDidChangeHeight(style: .compact)
-        case .compact, .full:
+            break
+        case .compact:
+            expandableControlsDidChangeHeight(style: .compact)
+            break
+        case .full:
+//            expandableControlsDidChangeHeight(style: .full)
             break
         }
+        
+        
     }
     
     func expandableControlsDidChangeHeight(style: ExpandableControlsView.Style) {
         expandableControlsView.style = style
-        let heightConstant: CGFloat = style == .full ? 200 : 60
-        expandableControlsHeightConstraint.constant = heightConstant
         
         if style == .compact {
             expandableControlsView.hideExpandedControls()
         }
+
+        let heightConstant: CGFloat = style == .full ? 200 : 60
+        expandableControlsHeightConstraint.constant = heightConstant
         
         UIView.animate(withDuration: 0.25) { [weak self] in
             self?.view.layoutIfNeeded()

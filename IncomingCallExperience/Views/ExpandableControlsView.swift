@@ -52,9 +52,6 @@ class ExpandableControlsView: UIView {
         view.backgroundColor = .cyan
         view.layer.cornerRadius = 18
         view.alpha = 0
-        view.didTap = { [weak self] in
-            print("Current style \(self?.style)")
-        }
         return view
     }()
     
@@ -173,13 +170,18 @@ extension ExpandableControlsView {
     }
     
     func showExpandedControls() {
-        guard style == .full else { 
-            [firstExpandedControl, secondExpandedControl, thirdExpandedControl].forEach {
-                $0.removeFromSuperview()
-            }
-            return
-        }
-        
+        layoutAndShowExpandedControls()
+    }
+    
+    func onSecondExpanedControlTapped() {
+        delegate?.didChangeLayoutOfControls(style: .compactBottom)
+    }
+    
+    func onThirdExpandControlTapped() {
+        delegate?.didChangeLayoutOfControls(style: .compactTop)
+    }
+    
+    func layoutAndShowExpandedControls() {
         [firstExpandedControl, secondExpandedControl, thirdExpandedControl].forEach { containerView.addSubview($0) }
         
         let spacing = (containerView.frame.width / 3) - 20
@@ -221,14 +223,5 @@ extension ExpandableControlsView {
                 $0.removeFromSuperview()
             }
         }
-
-    }
-    
-    func onSecondExpanedControlTapped() {
-        delegate?.didChangeLayoutOfControls(style: .compactBottom)
-    }
-    
-    func onThirdExpandControlTapped() {
-        delegate?.didChangeLayoutOfControls(style: .compactTop)
     }
 }
