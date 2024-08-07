@@ -19,7 +19,7 @@ class IncomingCallViewController: UIViewController {
         view.delegate = self
         view.didChangeHeight = { [weak self] style in
             guard let self = self else { return }
-            self.didChangeLayoutOfControls(style: style)
+            self.expandableControlsDidChangeHeight(style: style)
         }
         return view
     }()
